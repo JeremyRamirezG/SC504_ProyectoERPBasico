@@ -63,6 +63,7 @@ BEGIN
         WHEN OTHERS THEN
             MSJ_SALIDA := 'Error '|| SQLCODE || '-' || SQLERRM || '.';
 END;
+/
 
 /* BORRAR CLIENTE BASE*/
 create or replace PROCEDURE SP_BORRAR_CLIENTE_BASE (
@@ -84,3 +85,4 @@ BEGIN
         WHEN OTHERS THEN
             MSJ_SALIDA := 'Error '|| SQLCODE || '-' || SQLERRM || '.';
 END;
+/
