@@ -2,7 +2,13 @@ package Controlador;
 
 import Modelo.Clientes;
 import Modelo.ClientesDao;
+import Modelo.Detalle;
+import Modelo.DetalleDao;
+import Modelo.Facturas;
+import Modelo.FacturasDao;
 import Vista.Pantalla;
+import Vista.AccionesFactura;
+import Vista.ListarFactura;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -15,9 +21,17 @@ import javax.swing.table.DefaultTableModel;
 public class Controlador implements ActionListener {
 
     Pantalla vista = new Pantalla();
-    DefaultTableModel modelo = new DefaultTableModel();
+    AccionesFactura vistaAccionesFactura = new AccionesFactura();
+    ListarFactura vistaListarFactura = new ListarFactura();
+    
     Clientes clientes = new Clientes();
     ClientesDao dao = new ClientesDao();
+    Detalle detalle = new Detalle();
+    DetalleDao detalleDao = new DetalleDao();
+    Facturas facturas = new Facturas();
+    FacturasDao facturasDao = new FacturasDao();
+    
+    DefaultTableModel modelo = new DefaultTableModel();
 
     public Controlador(Pantalla vista) {
         this.vista = vista;
@@ -28,9 +42,45 @@ public class Controlador implements ActionListener {
         this.vista.btnEditar.addActionListener(this);
         this.vista.btnNuevo.addActionListener(this);
     }
+    public Controlador(ListarFactura vistaListarFactura) {
+        this.vistaListarFactura = vistaListarFactura;
+        this.vistaListarFactura.btnBuscar.addActionListener(this);
+    }
+    public Controlador(AccionesFactura vistaAccionesFactura) {
+        this.vistaAccionesFactura = vistaAccionesFactura;
+        this.vistaAccionesFactura.btnAgregarFactura.addActionListener(this);
+        this.vistaAccionesFactura.btnEditarFactura.addActionListener(this);
+        this.vistaAccionesFactura.btnBorrarFactura.addActionListener(this);
+        this.vistaAccionesFactura.btnAgregarDetalle.addActionListener(this);
+        this.vistaAccionesFactura.btnEditarDetalle.addActionListener(this);
+        this.vistaAccionesFactura.btnBorrarDetalle.addActionListener(this);
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        //FACTURAS
+        if (e.getSource() == vistaListarFactura.btnBuscar) {
+            
+        }
+        if (e.getSource() == vistaAccionesFactura.btnAgregarFactura) {
+            
+        }
+        if (e.getSource() == vistaAccionesFactura.btnEditarFactura) {
+            
+        }
+        if (e.getSource() == vistaAccionesFactura.btnBorrarFactura) {
+            
+        }
+        if (e.getSource() == vistaAccionesFactura.btnAgregarDetalle) {
+            
+        }
+        if (e.getSource() == vistaAccionesFactura.btnEditarDetalle) {
+            
+        }
+        if (e.getSource() == vistaAccionesFactura.btnBorrarDetalle) {
+            
+        }
+        //CLIENTES
         if (e.getSource() == vista.btnListar) {
             limpiarTabla();
             listar(vista.tblDatos);
@@ -84,7 +134,30 @@ public class Controlador implements ActionListener {
         }
     }
     
-
+    //FACTURAS
+    public void borrarFactura(){
+        
+    }
+    public void borrarLineaFactura() {
+        
+    }
+    public void crearFactura() {
+        
+    }
+    public void crearLineaFactura () {
+        
+    }
+    public void modificarFactura() {
+        
+    }
+    public void modificarLineaFactura() {
+        
+    }
+    public void listarFactura() {
+        
+    }
+    
+    //CLIENTES
     public void nuevoCliente() {
         vista.txtNombre1.setText("");
         vista.txtNombre2.setText("");

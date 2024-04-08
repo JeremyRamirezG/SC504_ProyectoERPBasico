@@ -1,5 +1,11 @@
-C:\Users\User\Documents\NetBeansProjects\GITHUB\SC504_ProyectoERPBasico\src\main\java\Controlador\Controlador.java
-C:\Users\User\Documents\NetBeansProjects\GITHUB\SC504_ProyectoERPBasico\src\main\java\Modelo\ClientesDao.java
-C:\Users\User\Documents\NetBeansProjects\GITHUB\SC504_ProyectoERPBasico\src\main\java\Controlador\OracleConecction.java
-C:\Users\User\Documents\NetBeansProjects\GITHUB\SC504_ProyectoERPBasico\src\main\java\Vista\Pantalla.java
-C:\Users\User\Documents\NetBeansProjects\GITHUB\SC504_ProyectoERPBasico\src\main\java\Modelo\Clientes.java
+C:\Users\jrg71\OneDrive\Documentos\GitHub\SC504_ProyectoERPBasico\src\main\java\Modelo\ClientesDao.java
+C:\Users\jrg71\OneDrive\Documentos\GitHub\SC504_ProyectoERPBasico\src\main\java\Modelo\DetalleDao.java
+C:\Users\jrg71\OneDrive\Documentos\GitHub\SC504_ProyectoERPBasico\src\main\java\Modelo\FacturasDao.java
+C:\Users\jrg71\OneDrive\Documentos\GitHub\SC504_ProyectoERPBasico\src\main\java\Modelo\Facturas.java
+C:\Users\jrg71\OneDrive\Documentos\GitHub\SC504_ProyectoERPBasico\src\main\java\Controlador\OracleConecction.java
+C:\Users\jrg71\OneDrive\Documentos\GitHub\SC504_ProyectoERPBasico\src\main\java\Modelo\Clientes.java
+C:\Users\jrg71\OneDrive\Documentos\GitHub\SC504_ProyectoERPBasico\src\main\java\Vista\AccionesFactura.java
+C:\Users\jrg71\OneDrive\Documentos\GitHub\SC504_ProyectoERPBasico\src\main\java\Vista\Pantalla.java
+C:\Users\jrg71\OneDrive\Documentos\GitHub\SC504_ProyectoERPBasico\src\main\java\Modelo\Detalle.java
+C:\Users\jrg71\OneDrive\Documentos\GitHub\SC504_ProyectoERPBasico\src\main\java\Vista\ListarFactura.java
+C:\Users\jrg71\OneDrive\Documentos\GitHub\SC504_ProyectoERPBasico\src\main\java\Controlador\Controlador.java
