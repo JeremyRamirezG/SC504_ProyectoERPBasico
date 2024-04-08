@@ -11,7 +11,9 @@ import Vista.AccionesFactura;
 import Vista.ListarFactura;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
@@ -64,22 +66,28 @@ public class Controlador implements ActionListener {
             listarFactura(vistaListarFactura.tblDetalles);
         }
         if (e.getSource() == vistaAccionesFactura.btnAgregarFactura) {
-            
+            crearFactura();
+            vaciarEncabezadoFacturaCUD();
         }
         if (e.getSource() == vistaAccionesFactura.btnEditarFactura) {
-            
+            modificarFactura();
+            vaciarEncabezadoFacturaCUD();
         }
         if (e.getSource() == vistaAccionesFactura.btnBorrarFactura) {
-            
+            borrarFactura();
+            vaciarEncabezadoFacturaCUD();
         }
         if (e.getSource() == vistaAccionesFactura.btnAgregarDetalle) {
-            
+            crearLineaFactura();
+            vaciarDetalleFacturaCUD();
         }
         if (e.getSource() == vistaAccionesFactura.btnEditarDetalle) {
-            
+            modificarLineaFactura();
+            vaciarDetalleFacturaCUD();
         }
         if (e.getSource() == vistaAccionesFactura.btnBorrarDetalle) {
-            
+            borrarLineaFactura();
+            vaciarDetalleFacturaCUD();
         }
         //CLIENTES
         if (e.getSource() == vista.btnListar) {
@@ -136,7 +144,19 @@ public class Controlador implements ActionListener {
     }
     
     //FACTURAS
-    public void vaciarFactura() {
+    public void vaciarDetalleFacturaCUD() {
+        vistaAccionesFactura.txtIdFacturaDetalle.setText("");
+        vistaAccionesFactura.txtIdProducto.setText("");
+        vistaAccionesFactura.txtCantidad.setText("");
+        vistaAccionesFactura.txtLinea.setText("");
+    }
+    public void vaciarEncabezadoFacturaCUD() {
+        vistaAccionesFactura.txtFechaFactura.setDate(null);
+        vistaAccionesFactura.txtIdFactura.setText("");
+        vistaAccionesFactura.txtTipoPago.setText("");
+        vistaAccionesFactura.txtIdCliente.setText("");
+        vistaAccionesFactura.txtIdEmpleado.setText("");
+        vistaAccionesFactura.txtIdCliente.setText("");
         
     }
     public void vaciarDetalleFactura() {
@@ -152,22 +172,65 @@ public class Controlador implements ActionListener {
         
     }
     public void borrarFactura(){
+        Facturas factura = new Facturas();
         
+        factura.setIdFactura(Integer.parseInt(vistaAccionesFactura.txtIdFactura.getText()));
+        
+        String resultado = FacturasDao.Eliminar(factura);
+        vistaAccionesFactura.txtMensaje.setText(resultado);
     }
     public void borrarLineaFactura() {
+        Detalle detalle = new Detalle();
         
+        detalle.setLineaFactura(Integer.parseInt(vistaAccionesFactura.txtLinea.getText()));
+        detalle.setIdFactura(Integer.parseInt(vistaAccionesFactura.txtIdFacturaDetalle.getText()));
+        
+        String resultado = DetalleDao.Eliminar(detalle);
+        vistaAccionesFactura.txtMensaje.setText(resultado);
     }
     public void crearFactura() {
+        Facturas factura = new Facturas();
+        
+        factura.setCedulaEmpleado(vistaAccionesFactura.txtIdCliente.getText());
+        factura.setCedulaCliente(vistaAccionesFactura.txtIdEmpleado.getText());
+        factura.setTipoPago(vistaAccionesFactura.txtTipoPago.getText());
+        
+        String resultado = FacturasDao.Agregar(factura);
+        vistaAccionesFactura.txtMensaje.setText(resultado);
         
     }
     public void crearLineaFactura () {
+        Detalle detalle = new Detalle();
         
+        detalle.setDetalle(vistaAccionesFactura.txtIdProducto.getText());
+        detalle.setCantidad(Integer.parseInt(vistaAccionesFactura.txtCantidad.getText()));
+        detalle.setIdFactura(Integer.parseInt(vistaAccionesFactura.txtIdFacturaDetalle.getText()));
+        
+        String resultado = DetalleDao.Agregar(detalle);
+        vistaAccionesFactura.txtMensaje.setText(resultado);
     }
     public void modificarFactura() {
+        Facturas factura = new Facturas();
         
+        factura.setIdFactura(Integer.parseInt(vistaAccionesFactura.txtIdFactura.getText()));
+        factura.setCedulaCliente(vistaAccionesFactura.txtIdEmpleado.getText());
+        factura.setTipoPago(vistaAccionesFactura.txtTipoPago.getText());
+        factura.setCedulaEmpleado(vistaAccionesFactura.txtIdCliente.getText());
+        factura.setFechaPago(vistaAccionesFactura.txtFechaFactura.getDate());
+        
+        String resultado = FacturasDao.Modificar(factura);
+        vistaAccionesFactura.txtMensaje.setText(resultado);
     }
     public void modificarLineaFactura() {
+        Detalle detalle = new Detalle();
         
+        detalle.setDetalle(vistaAccionesFactura.txtIdProducto.getText());
+        detalle.setCantidad(Integer.parseInt(vistaAccionesFactura.txtCantidad.getText()));
+        detalle.setIdFactura(Integer.parseInt(vistaAccionesFactura.txtIdFacturaDetalle.getText()));
+        detalle.setLineaFactura(Integer.parseInt(vistaAccionesFactura.txtLinea.getText()));
+        
+        String resultado = DetalleDao.Modificar(detalle);
+        vistaAccionesFactura.txtMensaje.setText(resultado);
     }
     public void listarFactura(JTable tabla) {
         int idFactura = Integer.parseInt(vistaListarFactura.txtIdFactura.getText());

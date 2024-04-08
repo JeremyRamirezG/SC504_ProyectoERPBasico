@@ -6,6 +6,7 @@ package Modelo;
  */
 public class Detalle {
     int lineaFactura;
+    int idFactura;
     String detalle;
     Double precio;
     int cantidad;
@@ -13,10 +14,11 @@ public class Detalle {
     public Detalle(){
     }
 
-    public Detalle(String detalle, Double precio, int cantidad) {
+    public Detalle(String detalle, Double precio, int cantidad, int idFactura) {
         this.detalle = detalle;
         this.precio = precio;
         this.cantidad = cantidad;
+        this.idFactura = idFactura;
     }
 
     public int getLineaFactura() {
@@ -49,6 +51,14 @@ public class Detalle {
 
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
+    }
+
+    public int getIdFactura() {
+        return idFactura;
+    }
+
+    public void setIdFactura(int idFactura) {
+        this.idFactura = idFactura;
     }
     
     
