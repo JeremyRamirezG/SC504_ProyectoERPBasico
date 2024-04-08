@@ -14,7 +14,7 @@ public class Facturas {
     String nombreCliente;
     String tipoPago;
     Date fechaPago;
-    int totalFactura;
+    Double totalFactura;
     
     public Facturas(){
     }
@@ -81,11 +81,11 @@ public class Facturas {
         this.fechaPago = fechaPago;
     }
 
-    public int getTotalFactura() {
+    public Double getTotalFactura() {
         return totalFactura;
     }
 
-    public void setTotalFactura(int totalFactura) {
+    public void setTotalFactura(Double totalFactura) {
         this.totalFactura = totalFactura;
     }
     

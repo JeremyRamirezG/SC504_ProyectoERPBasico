@@ -122,9 +122,12 @@ public class Pantalla extends javax.swing.JFrame {
         //vistaAccionesFactura.setLocationRelativeTo(null);
         
         Pantalla vista = new Pantalla();
-        Controlador con = new Controlador(vista);
         //vista.setVisible(true);
         //vista.setLocationRelativeTo(null);
+        
+        Controlador con = new Controlador(vista);
+        Controlador con2 = new Controlador(vistaListarFactura);
+        
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 

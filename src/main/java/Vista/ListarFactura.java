@@ -1,5 +1,7 @@
 package Vista;
 
+import Controlador.Controlador;
+
 public class ListarFactura extends javax.swing.JFrame {
 
     /**
@@ -158,6 +160,7 @@ public class ListarFactura extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -193,18 +196,18 @@ public class ListarFactura extends javax.swing.JFrame {
     public javax.swing.JButton btnBuscar;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JLabel lblCliente;
-    private javax.swing.JLabel lblEmpleado;
-    private javax.swing.JLabel lblFecha;
+    public javax.swing.JLabel lblCliente;
+    public javax.swing.JLabel lblEmpleado;
+    public javax.swing.JLabel lblFecha;
     private javax.swing.JLabel lblIdFactura;
-    private javax.swing.JLabel lblTipoPago;
-    private javax.swing.JLabel lblTotal;
-    private javax.swing.JTable tblDetalles;
-    private javax.swing.JLabel txtCliente;
-    private javax.swing.JLabel txtEmpleado;
-    private javax.swing.JLabel txtFecha;
-    private javax.swing.JTextPane txtIdFactura;
-    private javax.swing.JLabel txtTipoPago;
-    private javax.swing.JLabel txtTotal;
+    public javax.swing.JLabel lblTipoPago;
+    public javax.swing.JLabel lblTotal;
+    public javax.swing.JTable tblDetalles;
+    public javax.swing.JLabel txtCliente;
+    public javax.swing.JLabel txtEmpleado;
+    public javax.swing.JLabel txtFecha;
+    public javax.swing.JTextPane txtIdFactura;
+    public javax.swing.JLabel txtTipoPago;
+    public javax.swing.JLabel txtTotal;
     // End of variables declaration//GEN-END:variables
 }

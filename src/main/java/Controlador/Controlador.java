@@ -60,7 +60,8 @@ public class Controlador implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         //FACTURAS
         if (e.getSource() == vistaListarFactura.btnBuscar) {
-            
+            vaciarDetalleFactura();
+            listarFactura(vistaListarFactura.tblDetalles);
         }
         if (e.getSource() == vistaAccionesFactura.btnAgregarFactura) {
             
@@ -135,6 +136,21 @@ public class Controlador implements ActionListener {
     }
     
     //FACTURAS
+    public void vaciarFactura() {
+        
+    }
+    public void vaciarDetalleFactura() {
+        for (int i = 0; i < vistaListarFactura.tblDetalles.getRowCount(); i++) {
+            modelo.removeRow(i);
+            i = i - 1;
+        }
+        vistaListarFactura.txtEmpleado.setText("");
+        vistaListarFactura.txtCliente.setText("");
+        vistaListarFactura.txtFecha.setText("");
+        vistaListarFactura.txtTotal.setText("");
+        vistaListarFactura.txtTipoPago.setText("");
+        
+    }
     public void borrarFactura(){
         
     }
@@ -153,7 +169,28 @@ public class Controlador implements ActionListener {
     public void modificarLineaFactura() {
         
     }
-    public void listarFactura() {
+    public void listarFactura(JTable tabla) {
+        int idFactura = Integer.parseInt(vistaListarFactura.txtIdFactura.getText());
+        Facturas encabezadoFactura = facturasDao.Listar(idFactura);
+        
+        vistaListarFactura.txtEmpleado.setText(encabezadoFactura.getNombreEmpleado());
+        vistaListarFactura.txtCliente.setText(encabezadoFactura.getNombreEmpleado());
+        vistaListarFactura.txtFecha.setText(encabezadoFactura.getFechaPago()+"");
+        vistaListarFactura.txtTotal.setText(encabezadoFactura.getTotalFactura()+"");
+        vistaListarFactura.txtTipoPago.setText(encabezadoFactura.getTipoPago());
+        
+        modelo = (DefaultTableModel) tabla.getModel();
+        tabla.setModel(modelo);
+        List<Detalle> lista = detalleDao.Listar(idFactura);
+        Object[] objeto = new Object[6];
+        for (int i = 0; i < lista.size(); i++) {
+            objeto[0] = lista.get(i).getDetalle();
+            objeto[1] = lista.get(i).getPrecio();
+            objeto[2] = lista.get(i).getCantidad();
+            modelo.addRow(objeto);
+        }
+        tabla.setRowHeight(35);
+        tabla.setRowMargin(10);
         
     }
     
@@ -260,7 +297,7 @@ public class Controlador implements ActionListener {
             tabla.getColumnModel().getColumn(i).setCellRenderer(tcr);
         }
     }
-
+    
     void limpiarTabla() {
         for (int i = 0; i < vista.tblDatos.getRowCount(); i++) {
             modelo.removeRow(i);

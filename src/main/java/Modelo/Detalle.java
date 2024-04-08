@@ -7,13 +7,13 @@ package Modelo;
 public class Detalle {
     int lineaFactura;
     String detalle;
-    int precio;
+    Double precio;
     int cantidad;
     
     public Detalle(){
     }
 
-    public Detalle(String detalle, int precio, int cantidad) {
+    public Detalle(String detalle, Double precio, int cantidad) {
         this.detalle = detalle;
         this.precio = precio;
         this.cantidad = cantidad;
@@ -35,11 +35,11 @@ public class Detalle {
         this.detalle = detalle;
     }
 
-    public int getPrecio() {
+    public Double getPrecio() {
         return precio;
     }
 
-    public void setPrecio(int precio) {
+    public void setPrecio(Double precio) {
         this.precio = precio;
     }
 
