@@ -114,16 +114,20 @@ public class Pantalla extends javax.swing.JFrame {
      */
     public static void main(String args[]) {
         ListarFactura vistaListarFactura = new ListarFactura();
-        vistaListarFactura.setVisible(true);
-        vistaListarFactura.setLocationRelativeTo(null);
+        //vistaListarFactura.setVisible(true);
+        //vistaListarFactura.setLocationRelativeTo(null);
         
         AccionesFactura vistaAccionesFactura = new AccionesFactura();
-        vistaAccionesFactura.setVisible(true);
-        vistaAccionesFactura.setLocationRelativeTo(null);
+        //vistaAccionesFactura.setVisible(true);
+        //vistaAccionesFactura.setLocationRelativeTo(null);
         
         Pantalla vista = new Pantalla();
         //vista.setVisible(true);
         //vista.setLocationRelativeTo(null);
+        
+        Test test = new Test();
+        //test.setVisible(true);
+        //test.setLocationRelativeTo(null);
         
         Controlador con = new Controlador(vista);
         Controlador con2 = new Controlador(vistaListarFactura);

@@ -8,6 +8,7 @@ Modelo\Detalle.class
 Vista\AccionesFactura$1.class
 Vista\Pantalla.class
 Modelo\ClientesDao.class
+Vista\Test$2.class
 Vista\ListarFactura$2.class
 Modelo\Clientes.class
 Controlador\Controlador.class
@@ -15,3 +16,5 @@ Controlador\OracleConecction.class
 Modelo\DetalleDao.class
 Vista\ListarFactura.class
 Vista\ListarFactura$3.class
+Vista\Test.class
+Vista\Test$1.class
