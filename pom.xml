@@ -24,7 +24,7 @@
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         
-        <exec.mainClass>Vista.Pantalla</exec.mainClass>
+        <exec.mainClass>Vista.PantallaMenu</exec.mainClass>
         
     </properties>
     <!-- https://mvnrepository.com/artifact/com.oracle.database.jdbc/ojdbc8 -->

@@ -1,3 +1,5 @@
+/*********************************CLIENTES***********************************************
+
 -- VISTAS
 /* DATOS CLIENTES_GENERAL */
 CREATE VIEW VST_CLIENTE_GENERAL AS
@@ -86,3 +88,208 @@ BEGIN
             MSJ_SALIDA := 'Error '|| SQLCODE || '-' || SQLERRM || '.';
 END;
 /
+
+/*********************************CLIENTES*TELEFONO***********************************************
+
+/* CORREOS CLIENTES_GENERAL */
+CREATE VIEW VST_TELEFONO_CLIENTE_GENERAL AS
+SELECT ID_USUARIO, TELEFONO 
+FROM TBL_TELEFONOS;
+
+/* AGREGAR CLIENTE TELEFONO BASE*/
+CREATE OR REPLACE PROCEDURE SP_AGREGAR_CLIENTE_TELEFONO_BASE (
+        VCEDULA IN VARCHAR2,
+	VTELEFONO IN VARCHAR2,
+        MSJ_SALIDA OUT VARCHAR2
+)
+AS
+    --
+BEGIN
+    -- INSERTAR TELEFONO
+	INSERT INTO TBL_TELEFONOS
+	VALUES (VCEDULA,VTELEFONO);
+	-- INSERTAR TELEFONO
+	COMMIT;
+	-- MENSAJE SALIDA
+	MSJ_SALIDA := 'Telefono agregado exitosamente.';
+EXCEPTION
+    -- Capturar cualquier excepción y enviar mensaje de error
+	WHEN OTHERS THEN
+		MSJ_SALIDA := 'Telefono no agregado debido a la falla: ' || SQLCODE || '-' || SQLERRM || '.';
+END;
+/
+
+/* EDITAR CLIENTE TELEFONO BASE*/
+create or replace PROCEDURE SP_EDITAR_CLIENTE_TELEFONO_BASE (
+        VCEDULA IN VARCHAR2,
+	VTELEFONOACTUAL IN VARCHAR2,
+        VTELEFONONUEVO IN VARCHAR2,
+        MSJ_SALIDA OUT VARCHAR2
+)
+AS
+    --
+BEGIN
+    -- ACTUALIZAR TELEFONO
+        UPDATE "TBL_TELEFONOS" SET 
+            TELEFONO =  VTELEFONONUEVO
+        WHERE 
+            TELEFONO = VTELEFONOACTUAL;
+
+        --- ACTUALIZAR
+        COMMIT;
+        --- MENSAJE SALIDA
+        MSJ_SALIDA := 'Editado exitosamente.';
+        EXCEPTION
+        ---mensaje de error en caso de error
+        WHEN OTHERS THEN
+            MSJ_SALIDA := 'Error '|| SQLCODE || '-' || SQLERRM || '.';
+END;
+/
+
+/* BORRAR CLIENTE BASE*/
+create or replace PROCEDURE SP_BORRAR_CLIENTE_TELEFONO_BASE (
+        VCEDULA IN VARCHAR2,
+        VTELEFONO IN VARCHAR2,
+        MSJ_SALIDA OUT VARCHAR2
+)
+AS
+    --
+BEGIN
+    -- ACTUALIZAR CLIENTE
+        DELETE FROM "TBL_TELEFONOS"
+        WHERE TELEFONO =VTELEFONO;
+        --- ELIMINA
+        COMMIT;
+        --- MENSAJE SALIDA
+        MSJ_SALIDA := 'Borrado exitosamente.';
+        EXCEPTION
+        ---mensaje de error en caso de error
+        WHEN OTHERS THEN
+            MSJ_SALIDA := 'Error '|| SQLCODE || '-' || SQLERRM || '.';
+END;
+/
+
+/* SELECCIONAR TELEFONO CLIENTE BASE*/
+create or replace NONEDITIONABLE PROCEDURE SP_SELECT_CLIENTE_TELEFONO_BASE (
+        VCEDULA IN VARCHAR2,
+        RESULTADO OUT SYS_REFCURSOR,
+        MSJ_SALIDA OUT VARCHAR2
+)
+AS
+    --
+BEGIN
+    OPEN RESULTADO  FOR
+	SELECT TELEFONO FROM TBL_TELEFONOS
+	WHERE ID_USUARIO = VCEDULA;
+
+	COMMIT;
+	-- MENSAJE SALIDA
+	MSJ_SALIDA := 'Select exitoso';
+EXCEPTION
+	WHEN OTHERS THEN
+		MSJ_SALIDA := 'problemas al consultar: ' || SQLCODE || '-' || SQLERRM || '.';
+END;
+
+
+
+/*********************************CLIENTES*CORREO***********************************************
+
+/* CORREOS CLIENTES_GENERAL */
+CREATE VIEW VST_CORREO_CLIENTE_GENERAL AS
+SELECT ID_USUARIO, CORREO 
+FROM TBL_CORREOS;
+
+/* AGREGAR CLIENTE CORREO BASE*/
+CREATE OR REPLACE PROCEDURE SP_AGREGAR_CLIENTE_CORREO_BASE (
+        VCEDULA IN VARCHAR2,
+        VCORREO IN VARCHAR2,
+        MSJ_SALIDA OUT VARCHAR2
+)
+AS
+    --
+BEGIN
+    -- INSERTAR CORREO
+	INSERT INTO TBL_CORREOS
+	VALUES (VCEDULA,VCORREO);
+	-- INSERTAR TELEFONO
+	COMMIT;
+	-- MENSAJE SALIDA
+	MSJ_SALIDA := 'Correo agregado exitosamente.';
+EXCEPTION
+    -- Capturar cualquier excepción y enviar mensaje de error
+	WHEN OTHERS THEN
+		MSJ_SALIDA := 'Correo no agregado debido a la falla: ' || SQLCODE || '-' || SQLERRM || '.';
+END;
+/
+
+/* EDITAR CLIENTE CORREO BASE*/
+create or replace PROCEDURE SP_EDITAR_CLIENTE_CORREO_BASE (
+        VCEDULA IN VARCHAR2,
+        VCORREOACTUAL IN VARCHAR2,
+        VCORREONUEVO IN VARCHAR2,
+        MSJ_SALIDA OUT VARCHAR2
+)
+AS
+    --
+BEGIN
+    -- ACTUALIZAR CLIENTE
+        UPDATE "TBL_CORREOS" SET 
+            CORREO =  VCORREONUEVO
+        WHERE 
+            CORREO = VCORREOACTUAL;
+
+        --- ACTUALIZAR
+        COMMIT;
+        --- MENSAJE SALIDA
+        MSJ_SALIDA := 'Editado exitosamente.';
+        EXCEPTION
+        ---mensaje de error en caso de error
+        WHEN OTHERS THEN
+            MSJ_SALIDA := 'Error '|| SQLCODE || '-' || SQLERRM || '.';
+END;
+/
+
+/* BORRAR CLIENTE CORREO BASE*/
+create or replace PROCEDURE SP_BORRAR_CLIENTE_CORREO_BASE (
+        VCEDULA IN VARCHAR2,
+        VCORREO IN VARCHAR2,
+        MSJ_SALIDA OUT VARCHAR2
+)
+AS
+    --
+BEGIN
+    -- ACTUALIZAR CLIENTE
+        DELETE FROM "TBL_CORREOS"
+        WHERE CORREO =VCORREO;
+        --- ELIMINA
+        COMMIT;
+        --- MENSAJE SALIDA
+        MSJ_SALIDA := 'Borrado exitosamente.';
+        EXCEPTION
+        ---mensaje de error en caso de error
+        WHEN OTHERS THEN
+            MSJ_SALIDA := 'Error '|| SQLCODE || '-' || SQLERRM || '.';
+END;
+/
+
+/* SELECCIONAR CLIENTE CORREO BASE*/
+
+create or replace NONEDITIONABLE PROCEDURE SP_SELECT_CLIENTE_CORREO_BASE (
+        VCEDULA IN VARCHAR2,
+        RESULTADO OUT SYS_REFCURSOR,
+        MSJ_SALIDA OUT VARCHAR2
+)
+AS
+    --
+BEGIN
+    OPEN RESULTADO  FOR
+	SELECT CORREO FROM TBL_CORREOS
+	WHERE ID_USUARIO = VCEDULA;
+        
+	COMMIT;
+	-- MENSAJE SALIDA
+	MSJ_SALIDA := 'Select exitoso';
+EXCEPTION
+	WHEN OTHERS THEN
+		MSJ_SALIDA := 'problemas al consultar: ' || SQLCODE || '-' || SQLERRM || '.';
+END;

@@ -51,7 +51,6 @@ public class AccionesFactura extends javax.swing.JFrame {
         txtIdProducto = new javax.swing.JTextField();
         txtCantidad = new javax.swing.JTextField();
         txtLinea = new javax.swing.JTextField();
-        txtFechaFactura = new com.toedter.calendar.JDateChooser();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtMensaje = new javax.swing.JTextPane();
 
@@ -140,9 +139,7 @@ public class AccionesFactura extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(txtTipoPago, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
-                                            .addComponent(txtFechaFactura, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addComponent(txtTipoPago, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addGroup(layout.createSequentialGroup()
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -185,12 +182,10 @@ public class AccionesFactura extends javax.swing.JFrame {
                         .addComponent(txtIdEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtFechaFactura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(lblIdEmpleado)
-                                .addComponent(lblFechaFactura)
-                                .addComponent(btnEditarFactura)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblIdEmpleado)
+                            .addComponent(lblFechaFactura)
+                            .addComponent(btnEditarFactura))
                         .addGap(15, 15, 15)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnBorrarFactura)
@@ -291,7 +286,6 @@ public class AccionesFactura extends javax.swing.JFrame {
     public javax.swing.JLabel lblLinea;
     public javax.swing.JLabel lblTipoPago;
     public javax.swing.JTextField txtCantidad;
-    public com.toedter.calendar.JDateChooser txtFechaFactura;
     public javax.swing.JTextField txtIdCliente;
     public javax.swing.JTextField txtIdEmpleado;
     public javax.swing.JTextField txtIdFactura;

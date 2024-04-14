@@ -151,7 +151,7 @@ public class Controlador implements ActionListener {
         vistaAccionesFactura.txtLinea.setText("");
     }
     public void vaciarEncabezadoFacturaCUD() {
-        vistaAccionesFactura.txtFechaFactura.setDate(null);
+        //vistaAccionesFactura.txtFechaFactura.setDate(null);
         vistaAccionesFactura.txtIdFactura.setText("");
         vistaAccionesFactura.txtTipoPago.setText("");
         vistaAccionesFactura.txtIdCliente.setText("");
@@ -216,7 +216,7 @@ public class Controlador implements ActionListener {
         factura.setCedulaCliente(vistaAccionesFactura.txtIdEmpleado.getText());
         factura.setTipoPago(vistaAccionesFactura.txtTipoPago.getText());
         factura.setCedulaEmpleado(vistaAccionesFactura.txtIdCliente.getText());
-        factura.setFechaPago(vistaAccionesFactura.txtFechaFactura.getDate());
+        //factura.setFechaPago(vistaAccionesFactura.txtFechaFactura.getDate());
         
         String resultado = FacturasDao.Modificar(factura);
         vistaAccionesFactura.txtMensaje.setText(resultado);

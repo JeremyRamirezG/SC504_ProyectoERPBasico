@@ -67,10 +67,7 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="1" attributes="0">
-                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="txtTipoPago" pref="152" max="32767" attributes="0"/>
-                                          <Component id="txtFechaFactura" alignment="0" max="32767" attributes="0"/>
-                                      </Group>
+                                      <Component id="txtTipoPago" min="-2" pref="152" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                           <Group type="102" attributes="0">
                                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -130,13 +127,10 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="txtFechaFactura" min="-2" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="lblIdEmpleado" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblFechaFactura" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="btnEditarFactura" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="lblIdEmpleado" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblFechaFactura" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnEditarFactura" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                   </Group>
@@ -368,11 +362,6 @@
       </AuxValues>
     </Component>
     <Component class="javax.swing.JTextField" name="txtLinea">
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
-      </AuxValues>
-    </Component>
-    <Component class="com.toedter.calendar.JDateChooser" name="txtFechaFactura">
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
       </AuxValues>
