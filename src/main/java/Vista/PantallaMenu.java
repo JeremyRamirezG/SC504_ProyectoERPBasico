@@ -5,8 +5,10 @@
 package Vista;
 
 import Controlador.ControladorClientes;
+import Controlador.Controlador;
 import Controlador.ControladorClientesCorreos;
 import Controlador.ControladorClientesTelefonos;
+import javax.swing.JButton;
 import javax.swing.JList;
 
 /**
@@ -34,11 +36,12 @@ public class PantallaMenu extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jlMenu = new javax.swing.JList<>();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jlMenu.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Clientes" };
+            String[] strings = { "Clientes", "Empleados", "Roles", "Aplicar Rol" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
@@ -49,21 +52,31 @@ public class PantallaMenu extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jlMenu);
 
+        jLabel1.setFont(new java.awt.Font("Arial", 1, 36)); // NOI18N
+        jLabel1.setText("MENÚ PRINCIPAL");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(605, Short.MAX_VALUE))
+                .addContainerGap(225, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(212, 212, 212))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(225, 225, 225))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 403, Short.MAX_VALUE)
-                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(47, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(26, 26, 26)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(51, 51, 51))
         );
 
         pack();
@@ -73,15 +86,31 @@ public class PantallaMenu extends javax.swing.JFrame {
         // TODO add your handling code here:
         JList list = (JList) evt.getSource();
         if (evt.getClickCount() == 2) {
-            if(list.locationToIndex(evt.getPoint())==0){
-                PantallaClientes pantalla=new PantallaClientes();
-                ControladorClientes con=new ControladorClientes(pantalla);
+            int selectedIndex = list.locationToIndex(evt.getPoint());
+            if (selectedIndex == 0) { // "Clientes"
+                PantallaClientes pantalla = new PantallaClientes();
+                ControladorClientes con = new ControladorClientes(pantalla);
+                pantalla.setVisible(true);
+                pantalla.setLocationRelativeTo(null);
+            } else if (selectedIndex == 1) { // "Empleados"
+                PantallaEmpleados pantalla = new PantallaEmpleados();
+                Controlador con = new Controlador(pantalla);
+                pantalla.setVisible(true);
+                pantalla.setLocationRelativeTo(null);
+            }  else if (selectedIndex == 2) { // "Roles"
+                PantallaRoles pantalla = new PantallaRoles();
+                Controlador con = new Controlador(pantalla);
+                pantalla.setVisible(true);
+                pantalla.setLocationRelativeTo(null);
+            }  else if (selectedIndex == 3) { // "RolesEmpleados"
+                PantallaRolesEmpleado pantalla = new PantallaRolesEmpleado();
+                Controlador con = new Controlador(pantalla);
                 pantalla.setVisible(true);
                 pantalla.setLocationRelativeTo(null);
             }
         }
     }//GEN-LAST:event_jlMenuMouseClicked
-
+    
     /**
      * @param args the command line arguments
      */
@@ -118,6 +147,7 @@ public class PantallaMenu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JList<String> jlMenu;
     // End of variables declaration//GEN-END:variables

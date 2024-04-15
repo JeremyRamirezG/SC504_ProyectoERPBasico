@@ -3,8 +3,8 @@ package Controlador;
 import java.sql.Connection;
 import java.sql.DriverManager;
 public class OracleConecction {
-//    String url="jdbc:oracle:thin:@localhost:1521:orcl";
-    String url="jdbc:oracle:thin:@192.168.100.248:1521:orcl";
+    String url="jdbc:oracle:thin:@localhost:1521:orcl";
+//    String url="jdbc:oracle:thin:@192.168.100.248:1521:orcl";
     
     String user="ADMIN_TIENDA",pass="admin_tienda_proyecto";    
     Connection con;
