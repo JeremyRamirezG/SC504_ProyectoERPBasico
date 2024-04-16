@@ -330,26 +330,28 @@ END;
 /
 -- PROCESOS ALMACENADOS
 /* Procedimiento para registrar un producto*/
-create or replace NONEDITIONABLE PROCEDURE RegistrarProducto(
-    P_ID_PRODUCTO IN VARCHAR2,
-    p_DESCRIPCION IN VARCHAR2,
-    p_PRECIO IN NUMBER,
-    P_PROOVEDOR IN VARCHAR2,
-    P_FECHA_INGRESO IN DATE,
-    P_CANTIDAD IN NUMBER
+create or replace NONEDITIONABLE PROCEDURE SP_agregar_producto (
+    p_id_producto IN VARCHAR2,
+    p_descripcion IN VARCHAR2,
+    p_precio IN NUMBER,
+    p_proveedor IN VARCHAR2,
+    p_fecha_ingreso IN DATE,
+    p_cantidad IN NUMBER
 )
 IS
+    v_sql VARCHAR2(1000);
 BEGIN
-    INSERT INTO TBL_PRODUCTOS (ID_PRODUCTO, DESCRIPCION, PRECIO, PROOVEDOR, FECHA_INGRESO, CANTIDAD)
-    VALUES (P_ID_PRODUCTO, p_DESCRIPCION, p_PRECIO,P_PROOVEDOR,P_FECHA_INGRESO,P_CANTIDAD);
+    v_sql := 'INSERT INTO TBL_PRODUCTOS (ID_PRODUCTO, DESCRIPCION, PRECIO, PROVEEDOR, FECHA_INGRESO, CANTIDAD) ' ||
+             'VALUES (:1, :2, :3, :4, :5, :6)';
 
-    COMMIT;
-    DBMS_OUTPUT.PUT_LINE('Producto registrado exitosamente.');
+    EXECUTE IMMEDIATE v_sql USING p_id_producto, p_descripcion, p_precio, p_proveedor, p_fecha_ingreso, p_cantidad;
+
+
+    DBMS_OUTPUT.PUT_LINE('Producto agregado correctamente');
 EXCEPTION
     WHEN OTHERS THEN
-        ROLLBACK;
-        DBMS_OUTPUT.PUT_LINE('Error al intentar registrar el producto: ' || SQLERRM);
-END RegistrarProducto;
+        DBMS_OUTPUT.PUT_LINE('Error al agregar el producto: ' || SQLERRM);
+END SP_agregar_producto;
 
 /* Procedimiento que disminuye la cantidad de productos en compras utilizando id y cantidad como parametros de entrada */
 create or replace NONEDITIONABLE PROCEDURE DisminuirCantidadProducto(
@@ -383,29 +385,29 @@ EXCEPTION
 END DisminuirCantidadProducto;
 
 /* Consultar productos */
-create or replace NONEDITIONABLE PROCEDURE ConsultarProductos
-IS
-    CURSOR productos_cursor IS
-        SELECT ID_PRODUCTO, DESCRIPCION, PRECIO, PROOVEDOR, CANTIDAD
-        FROM TBL_PRODUCTOS;
+create or replace NONEDITIONABLE PROCEDURE SP_buscar_producto(
+    palabra_clave IN VARCHAR2,
+    productos_cursor OUT SYS_REFCURSOR
+)
+AS
+    v_query VARCHAR2(1000);
 BEGIN
-    FOR producto IN productos_cursor LOOP
-        DBMS_OUTPUT.PUT_LINE('ID: ' || producto.ID_PRODUCTO ||', Descripción: ' || producto.descripcion || ', Precio: ' || producto.precio ||',  Cantidad: ' || producto.cantidad);
-    END LOOP;
-EXCEPTION
-    WHEN OTHERS THEN
-        DBMS_OUTPUT.PUT_LINE('Error al intentar consultar los productos: ' || SQLERRM);
-END ConsultarProductos;
+    v_query := 'SELECT ID_PRODUCTO, DESCRIPCION, PRECIO, PROVEEDOR, FECHA_INGRESO, CANTIDAD ' ||
+               'FROM TBL_PRODUCTOS ' ||
+               'WHERE UPPER(DESCRIPCION) LIKE ''%'' || UPPER(:palabra_clave) || ''%''';
+
+    OPEN productos_cursor FOR v_query USING palabra_clave;
+END SP_buscar_producto;
 	
 /* AGREGAR Proveedor */
-create or replace NONEDITIONABLE PROCEDURE AgregarProveedor(
+create or replace NONEDITIONABLE PROCEDURE SP_AgregarProveedor(
     p_ID_PROVEEDOR IN VARCHAR2,
     p_DESCRIPCION IN VARCHAR2,
     p_FECHA_INGRESO IN DATE
 )
 IS
 BEGIN
-    INSERT INTO TBL_PROOVEDORES (ID_PROOVEDOR, DESCRIPCION, FECHA_INGRESO)
+    INSERT INTO TBL_PROVEEDORES (ID_PROVEEDOR, DESCRIPCION, FECHA_INGRESO)
     VALUES (p_ID_PROVEEDOR, p_DESCRIPCION, p_FECHA_INGRESO);
 
     COMMIT;
@@ -414,7 +416,7 @@ EXCEPTION
     WHEN OTHERS THEN
         ROLLBACK;
         DBMS_OUTPUT.PUT_LINE('Error al intentar agregar el proveedor: ' || SQLERRM);
-END AgregarProveedor;
+END SP_AgregarProveedor;
 
 /* AGREGAR CLIENTE */
 CREATE OR REPLACE PROCEDURE SP_AGREGAR_CLIENTE (
@@ -948,6 +950,121 @@ EXCEPTION
         MSJ_SALIDA := 'Linea no borrada debido a la falla: ' || SQLCODE || '-' || SQLERRM || '.';
 END;
 /
+/* Buscar productos en la base de datos */
+create or replace NONEDITIONABLE PROCEDURE SP_buscar_producto(
+    palabra_clave IN VARCHAR2,
+    productos_cursor OUT SYS_REFCURSOR
+)
+AS
+    v_query VARCHAR2(1000);
+BEGIN
+    v_query := 'SELECT ID_PRODUCTO, DESCRIPCION, PRECIO, PROVEEDOR, FECHA_INGRESO, CANTIDAD ' ||
+               'FROM TBL_PRODUCTOS ' ||
+               'WHERE UPPER(DESCRIPCION) LIKE ''%'' || UPPER(:palabra_clave) || ''%''';
+
+    OPEN productos_cursor FOR v_query USING palabra_clave;
+END SP_buscar_producto;
+
+/* Buscar proveedores en la base de datos */
+create or replace NONEDITIONABLE PROCEDURE SP_buscar_proveedor(
+    palabra_clave IN VARCHAR2,
+    proveedor_cursor OUT SYS_REFCURSOR
+)
+AS
+    v_query VARCHAR2(1000);
+BEGIN
+    v_query := 'SELECT ID_PROVEEDOR,DESCRIPCION,FECHA_INGRESO ' ||
+               'FROM TBL_PROVEEDORES ' ||
+               'WHERE UPPER(ID_PROVEEDOR) LIKE ''%'' || UPPER(:palabra_clave) || ''%''';
+
+    OPEN  proveedor_cursor FOR v_query USING palabra_clave;
+END SP_buscar_proveedor;
+
+-- PAQUETES
+/* PAQUETE QUE PERMITE AGRUPAR LOS SP UTILIZADOS PARA ACTUALIZACION DE TBL PRODUCTOS Y PROVEEDORES */
+create or replace NONEDITIONABLE PACKAGE PKG_ACTUALIZACION_TABLAS AS
+
+    PROCEDURE Actualizar_Producto (
+        p_id_producto IN TBL_PRODUCTOS.ID_PRODUCTO%TYPE,
+        p_descripcion IN TBL_PRODUCTOS.DESCRIPCION%TYPE,
+        p_precio IN TBL_PRODUCTOS.PRECIO%TYPE,
+        p_proveedor IN TBL_PRODUCTOS.PROVEEDOR%TYPE,
+        p_cantidad IN TBL_PRODUCTOS.CANTIDAD%TYPE
+    );
+
+   
+    PROCEDURE Actualizar_Proveedor (
+        p_id_proveedor IN TBL_PROVEEDORES.ID_PROVEEDOR%TYPE,
+        p_descripcion IN TBL_PROVEEDORES.DESCRIPCION%TYPE
+    );
+END PKG_ACTUALIZACION_TABLAS;
+
+create or replace NONEDITIONABLE PACKAGE BODY PKG_ACTUALIZACION_TABLAS AS
+
+    PROCEDURE Actualizar_Producto (
+        p_id_producto IN TBL_PRODUCTOS.ID_PRODUCTO%TYPE,
+        p_descripcion IN TBL_PRODUCTOS.DESCRIPCION%TYPE,
+        p_precio IN TBL_PRODUCTOS.PRECIO%TYPE,
+        p_proveedor IN TBL_PRODUCTOS.PROVEEDOR%TYPE,
+        p_cantidad IN TBL_PRODUCTOS.CANTIDAD%TYPE
+    )
+    AS
+    BEGIN
+        UPDATE TBL_PRODUCTOS
+        SET DESCRIPCION = p_descripcion,
+            PRECIO = p_precio,
+            PROVEEDOR = p_proveedor,
+            CANTIDAD = p_cantidad
+        WHERE ID_PRODUCTO = p_id_producto;
+        COMMIT;
+    END Actualizar_Producto;
+
+
+    PROCEDURE Actualizar_Proveedor (
+        p_id_proveedor IN TBL_PROVEEDORES.ID_PROVEEDOR%TYPE,
+        p_descripcion IN TBL_PROVEEDORES.DESCRIPCION%TYPE
+    )
+    AS
+    BEGIN
+        UPDATE TBL_PROVEEDORES
+        SET DESCRIPCION = p_descripcion
+        WHERE ID_PROVEEDOR = p_id_proveedor;
+        COMMIT;
+    END Actualizar_Proveedor;
+END PKG_ACTUALIZACION_TABLAS;
+
+/* PAQUETE QUE PERMITE AGRUPAR LOS SP UTILIZADOS PARA ELIMINAR REGISTROS DUPLICADOS DE TBL PRODUCTOS Y PROVEEDORES */
+create or replace NONEDITIONABLE PACKAGE pkg_eliminar_duplicados AS
+
+  PROCEDURE eliminar_duplicados_productos;
+
+  PROCEDURE eliminar_duplicados_proveedores;
+END pkg_eliminar_duplicados;
+
+create or replace NONEDITIONABLE PACKAGE BODY pkg_eliminar_duplicados AS
+
+  PROCEDURE eliminar_duplicados_productos IS
+  BEGIN
+    DELETE FROM tbl_productos
+    WHERE ROWID NOT IN (
+      SELECT MIN(ROWID)
+      FROM tbl_productos
+      GROUP BY descripcion
+      );
+      commit;
+  END eliminar_duplicados_productos;
+
+  PROCEDURE eliminar_duplicados_proveedores IS
+  BEGIN
+    DELETE FROM tbl_proveedores
+    WHERE ROWID NOT IN (
+      SELECT MIN(ROWID)
+      FROM tbl_proveedores
+      GROUP BY descripcion
+    );
+    commit;
+  END eliminar_duplicados_proveedores;
+END pkg_eliminar_duplicados;
 
 -- VISTAS
 /* DATOS CLIENTE */
