@@ -42,7 +42,7 @@ public class PantallaRolesEmpleado extends javax.swing.JFrame {
 
         btnAgregar.setText("Agregar");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         tblDatosRolEmpleado.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
