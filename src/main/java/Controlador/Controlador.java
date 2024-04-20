@@ -343,7 +343,7 @@ public class Controlador implements ActionListener {
         vistaAccionesFactura.txtLinea.setText("");
     }
     public void vaciarEncabezadoFacturaCUD() {
-        //vistaAccionesFactura.txtFechaFactura.setDate(null);
+        vistaAccionesFactura.txtFechaFactura.setDate(null);
         vistaAccionesFactura.txtIdFactura.setText("");
         vistaAccionesFactura.txtTipoPago.setText("");
         vistaAccionesFactura.txtIdCliente.setText("");
@@ -389,6 +389,11 @@ public class Controlador implements ActionListener {
         
         String resultado = FacturasDao.Agregar(factura);
         vistaAccionesFactura.txtMensaje.setText(resultado);
+        if(resultado.contains(" con exito")){
+            String[] division = resultado.split(": ");
+            int numFactura = Integer.parseInt(division[1].trim());
+            listarFacturaAcc(vistaAccionesFactura.tblDetalles,numFactura);
+        }
         
     }
     public void crearLineaFactura () {
@@ -400,6 +405,11 @@ public class Controlador implements ActionListener {
         
         String resultado = DetalleDao.Agregar(detalle);
         vistaAccionesFactura.txtMensaje.setText(resultado);
+        if(resultado.contains(" con exito")){
+            String[] division = resultado.split(": ");
+            int numFactura = Integer.parseInt(division[1].trim());
+            listarFacturaAcc(vistaAccionesFactura.tblDetalles,numFactura);
+        }
     }
     public void modificarFactura() {
         Facturas factura = new Facturas();
@@ -408,10 +418,15 @@ public class Controlador implements ActionListener {
         factura.setCedulaCliente(vistaAccionesFactura.txtIdEmpleado.getText());
         factura.setTipoPago(vistaAccionesFactura.txtTipoPago.getText());
         factura.setCedulaEmpleado(vistaAccionesFactura.txtIdCliente.getText());
-        //factura.setFechaPago(vistaAccionesFactura.txtFechaFactura.getDate());
+        factura.setFechaPago(vistaAccionesFactura.txtFechaFactura.getDate());
         
         String resultado = FacturasDao.Modificar(factura);
         vistaAccionesFactura.txtMensaje.setText(resultado);
+        if(resultado.contains(" con exito")){
+            String[] division = resultado.split(": ");
+            int numFactura = Integer.parseInt(division[1].trim());
+            listarFacturaAcc(vistaAccionesFactura.tblDetalles,numFactura);
+        }
     }
     public void modificarLineaFactura() {
         Detalle detalle = new Detalle();
@@ -423,6 +438,11 @@ public class Controlador implements ActionListener {
         
         String resultado = DetalleDao.Modificar(detalle);
         vistaAccionesFactura.txtMensaje.setText(resultado);
+        if(resultado.contains(" con exito")){
+            String[] division = resultado.split(": ");
+            int numFactura = Integer.parseInt(division[1].trim());
+            listarFacturaAcc(vistaAccionesFactura.tblDetalles,numFactura);
+        }
     }
     public void listarFactura(JTable tabla) {
         int idFactura = Integer.parseInt(vistaListarFactura.txtIdFactura.getText());
@@ -435,6 +455,31 @@ public class Controlador implements ActionListener {
         vistaListarFactura.txtTipoPago.setText(encabezadoFactura.getTipoPago());
         
         modelo = (DefaultTableModel) tabla.getModel();
+        tabla.setModel(modelo);
+        List<Detalle> lista = detalleDao.Listar(idFactura);
+        Object[] objeto = new Object[6];
+        for (int i = 0; i < lista.size(); i++) {
+            objeto[0] = lista.get(i).getDetalle();
+            objeto[1] = lista.get(i).getPrecio();
+            objeto[2] = lista.get(i).getCantidad();
+            modelo.addRow(objeto);
+        }
+        tabla.setRowHeight(35);
+        tabla.setRowMargin(10);
+        
+    }
+    public void listarFacturaAcc(JTable tabla, int idFactura) {
+        Facturas encabezadoFactura = facturasDao.Listar(idFactura);
+        
+        vistaAccionesFactura.txtIdFacturaPr.setText(idFactura+"");
+        vistaAccionesFactura.txtIdEmpleadoPr.setText(encabezadoFactura.getNombreEmpleado());
+        vistaAccionesFactura.txtIdClientePr.setText(encabezadoFactura.getNombreEmpleado());
+        vistaAccionesFactura.txtFechaPr.setText(encabezadoFactura.getFechaPago()+"");
+        vistaAccionesFactura.txtPagoPr.setText(encabezadoFactura.getTipoPago());
+        vistaAccionesFactura.txtTotalPr.setText(encabezadoFactura.getTotalFactura()+"");
+        
+        modelo = (DefaultTableModel) tabla.getModel();
+        modelo.setRowCount(0);
         tabla.setModel(modelo);
         List<Detalle> lista = detalleDao.Listar(idFactura);
         Object[] objeto = new Object[6];

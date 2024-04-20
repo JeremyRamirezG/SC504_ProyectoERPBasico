@@ -51,6 +51,7 @@ Vista\ListarFactura$3.class
 Modelo\EmpleadosDao.class
 Vista\PantallaProveedor$7.class
 Vista\PantallaRoles$3.class
+Vista\AccionesFactura$3.class
 Modelo\Facturas.class
 Vista\PantallaProveedor$8.class
 Controlador\ControladorClientesTelefonos.class
