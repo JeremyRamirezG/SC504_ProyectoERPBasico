@@ -41,7 +41,7 @@ public class PantallaMenu extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jlMenu.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Clientes", "Empleados", "Roles", "Aplicar Rol", "Acciones Facturas", "Listar Facturas" };
+            String[] strings = { "Clientes", "Empleados", "Roles", "Aplicar Rol", "Acciones Facturas", "Listar Facturas", "Productos", "Proveedores" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
@@ -117,6 +117,10 @@ public class PantallaMenu extends javax.swing.JFrame {
                 Controlador con = new Controlador(pantalla);
                 pantalla.setVisible(true);
                 pantalla.setLocationRelativeTo(null);
+            } else if (selectedIndex == 6) { // "Listar Factura"
+                new PantallaProducto().setVisible(true);
+            } else if (selectedIndex == 7) { // "Listar Factura"
+                new PantallaProveedor().setVisible(true);
             }
         }
     }//GEN-LAST:event_jlMenuMouseClicked

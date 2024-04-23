@@ -102,9 +102,7 @@ public class Controlador implements ActionListener {
         this.vistaPantallaRolesEmpleado = vistaPantallaRolesEmpleado;
         this.vistaPantallaRolesEmpleado.btnListarRolEmpleado.addActionListener(this);
         this.vistaPantallaRolesEmpleado.btnAgregarRolEmpleado.addActionListener(this);
-        this.vistaPantallaRolesEmpleado.btnActualizarRolEmpleado.addActionListener(this);
         this.vistaPantallaRolesEmpleado.btnBorrarRolEmpleado.addActionListener(this);
-        this.vistaPantallaRolesEmpleado.btnEditarRolEmpleado.addActionListener(this);
         this.vistaPantallaRolesEmpleado.btnNuevoRolEmpleado.addActionListener(this);
     }
 
@@ -305,12 +303,6 @@ public class Controlador implements ActionListener {
             listarRolesEmpleado(vistaPantallaRolesEmpleado.tblDatosRolEmpleado);
             nuevoRolEmpleado();
         }        
-        if (e.getSource() == vistaPantallaRolesEmpleado.btnActualizarRolEmpleado) {
-            limpiarTablaRolesEmpleado();
-            updateRolEmpleado();
-            listarRolesEmpleado(vistaPantallaRolesEmpleado.tblDatosRolEmpleado);
-            nuevoRolEmpleado();
-        }
         if (e.getSource() == vistaPantallaRolesEmpleado.btnNuevoRolEmpleado) {
             limpiarTablaRolesEmpleado();
             nuevoRolEmpleado();
@@ -321,18 +313,6 @@ public class Controlador implements ActionListener {
             limpiarTablaRolesEmpleado();
             listarRolesEmpleado(vistaPantallaRolesEmpleado.tblDatosRolEmpleado);
             nuevoRolEmpleado();
-        }
-        if (e.getSource() == vistaPantallaRolesEmpleado.btnEditarRolEmpleado) {
-            int fila = vistaPantallaRolesEmpleado.tblDatosRolEmpleado.getSelectedRow();
-            if (fila == -1) {
-                JOptionPane.showMessageDialog(vistaPantallaRolesEmpleado, "Debe seleccionar una fila");
-            } else {
-                String nuevaCedula = vistaPantallaRolesEmpleado.tblDatosRolEmpleado.getValueAt(fila, 0).toString();
-                String nuevoRol = vistaPantallaRolesEmpleado.tblDatosRolEmpleado.getValueAt(fila, 1).toString();
-
-                vistaPantallaRolesEmpleado.txtCedula.setText(nuevaCedula);
-                vistaPantallaRolesEmpleado.txtRol.setText(nuevoRol);
-            }
         }
     }
     

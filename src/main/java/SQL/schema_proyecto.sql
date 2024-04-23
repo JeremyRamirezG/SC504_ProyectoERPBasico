@@ -189,7 +189,7 @@ ADD (
 );
 
 /* TBL_PROOVEDORES */
-ALTER TABLE TBL_PROOVEDORES
+ALTER TABLE TBL_PROVEEDORES
 ADD (
     CONSTRAINT PK_PROOVEDORES PRIMARY KEY (ID_PROOVEDOR),
 	CONSTRAINT UK_DESC_PROOVEDORES UNIQUE (DESCRIPCION)
@@ -233,9 +233,13 @@ ADD (
 /* TBL_ROLES */
 
 /* TBL_PRODUCTOS */
+ALTER TABLE TBL_PROVEEDORES
+ADD (
+    CONSTRAINT PK_PROVEEDOR PRIMARY KEY (ID_PROVEEDOR)
+);
 ALTER TABLE TBL_PRODUCTOS
 ADD (
-    CONSTRAINT FK_PRODUCTOS_PROOVEDOR FOREIGN KEY (PROOVEDOR) REFERENCES TBL_PROOVEDORES (ID_PROOVEDOR)
+    CONSTRAINT FK_PRODUCTOS_PROVEEDOR FOREIGN KEY (PROVEEDOR) REFERENCES TBL_PROVEEDORES (ID_PROVEEDOR)
 );
 
 /* TBL_PROOVEDORES */
@@ -394,16 +398,23 @@ create or replace NONEDITIONABLE PROCEDURE SP_agregar_producto (
 )
 IS
     v_sql VARCHAR2(1000);
+    ERROR VARCHAR2(1000);
+    TIEMPO TIMESTAMP;
 BEGIN
     v_sql := 'INSERT INTO TBL_PRODUCTOS (ID_PRODUCTO, DESCRIPCION, PRECIO, PROVEEDOR, FECHA_INGRESO, CANTIDAD) ' ||
              'VALUES (:1, :2, :3, :4, :5, :6)';
 
     EXECUTE IMMEDIATE v_sql USING p_id_producto, p_descripcion, p_precio, p_proveedor, p_fecha_ingreso, p_cantidad;
-
+    COMMIT;
 
     DBMS_OUTPUT.PUT_LINE('Producto agregado correctamente');
 EXCEPTION
     WHEN OTHERS THEN
+        ERROR := SQLERRM;
+        TIEMPO := SYSTIMESTAMP;
+        INSERT INTO TBL_ERRORES(ID_ERROR, NOMBRE_SP, MSJ_ERROR, FECHA_ERROR)
+        VALUES (SEQ_ERROR.NEXTVAL, 'SP_agregar_producto', ERROR, TIEMPO);
+        COMMIT;
         DBMS_OUTPUT.PUT_LINE('Error al agregar el producto: ' || SQLERRM);
 END SP_agregar_producto;
 
@@ -445,12 +456,21 @@ create or replace NONEDITIONABLE PROCEDURE SP_buscar_producto(
 )
 AS
     v_query VARCHAR2(1000);
+    ERROR VARCHAR2(1000);
+    TIEMPO TIMESTAMP;
 BEGIN
     v_query := 'SELECT ID_PRODUCTO, DESCRIPCION, PRECIO, PROVEEDOR, FECHA_INGRESO, CANTIDAD ' ||
                'FROM TBL_PRODUCTOS ' ||
                'WHERE UPPER(DESCRIPCION) LIKE ''%'' || UPPER(:palabra_clave) || ''%''';
 
     OPEN productos_cursor FOR v_query USING palabra_clave;
+EXCEPTION
+    WHEN OTHERS THEN
+        ERROR := SQLERRM;
+        TIEMPO := SYSTIMESTAMP;
+        INSERT INTO TBL_ERRORES(ID_ERROR, NOMBRE_SP, MSJ_ERROR, FECHA_ERROR)
+        VALUES (SEQ_ERROR.NEXTVAL, 'SP_buscar_producto', ERROR, TIEMPO);
+        COMMIT;
 END SP_buscar_producto;
 	
 /* AGREGAR Proveedor */
@@ -460,6 +480,8 @@ create or replace NONEDITIONABLE PROCEDURE SP_AgregarProveedor(
     p_FECHA_INGRESO IN DATE
 )
 IS
+    ERROR VARCHAR2(1000);
+    TIEMPO TIMESTAMP;
 BEGIN
     INSERT INTO TBL_PROVEEDORES (ID_PROVEEDOR, DESCRIPCION, FECHA_INGRESO)
     VALUES (p_ID_PROVEEDOR, p_DESCRIPCION, p_FECHA_INGRESO);
@@ -469,9 +491,11 @@ BEGIN
 EXCEPTION
     WHEN OTHERS THEN
         ROLLBACK;
-        INSERT INTO TBL_ERRORES(ID_ERROR, NOMBRE_SP, MSJ_ERROR, FECHA_ERROR)
-        VALUES (SEQ_ERROR.NEXTVAL, 'SP_AgregarProveedor',SQLERRM, SYSTIMESTAMP);
-        COMMIT;
+            ERROR := SQLERRM;
+            TIEMPO := SYSTIMESTAMP;
+            INSERT INTO TBL_ERRORES(ID_ERROR, NOMBRE_SP, MSJ_ERROR, FECHA_ERROR)
+            VALUES (SEQ_ERROR.NEXTVAL, 'SP_AgregarProveedor', ERROR, TIEMPO);
+            COMMIT;
         DBMS_OUTPUT.PUT_LINE('Error al intentar agregar el proveedor: ' || SQLERRM);
 END SP_AgregarProveedor;
 /
@@ -1143,6 +1167,26 @@ BEGIN
     OPEN productos_cursor FOR v_query USING palabra_clave;
 END SP_buscar_producto;
 
+/* ELIMINAR PRODUCTO */
+create or replace NONEDITIONABLE PROCEDURE SP_eliminar_producto (
+    p_id_producto IN VARCHAR2
+)
+IS
+    v_sql VARCHAR2(1000);
+BEGIN
+    v_sql := 'DELETE FROM TBL_PRODUCTOS WHERE ID_PRODUCTO = :id_producto';
+ 
+ 
+    EXECUTE IMMEDIATE v_sql USING p_id_producto;
+ 
+  
+    DBMS_OUTPUT.PUT_LINE('Producto eliminado correctamente');
+EXCEPTION
+    WHEN OTHERS THEN
+ 
+        DBMS_OUTPUT.PUT_LINE('Error al eliminar el producto: ' || SQLERRM);
+END SP_eliminar_producto;
+
 /* Buscar proveedores en la base de datos */
 create or replace NONEDITIONABLE PROCEDURE SP_buscar_proveedor(
     palabra_clave IN VARCHAR2,
@@ -1150,13 +1194,50 @@ create or replace NONEDITIONABLE PROCEDURE SP_buscar_proveedor(
 )
 AS
     v_query VARCHAR2(1000);
+    ERROR VARCHAR2(1000);
+    TIEMPO TIMESTAMP;
 BEGIN
     v_query := 'SELECT ID_PROVEEDOR,DESCRIPCION,FECHA_INGRESO ' ||
                'FROM TBL_PROVEEDORES ' ||
                'WHERE UPPER(ID_PROVEEDOR) LIKE ''%'' || UPPER(:palabra_clave) || ''%''';
 
     OPEN  proveedor_cursor FOR v_query USING palabra_clave;
+EXCEPTION
+    WHEN OTHERS THEN
+        ERROR := SQLERRM;
+        TIEMPO := SYSTIMESTAMP;
+        INSERT INTO TBL_ERRORES(ID_ERROR, NOMBRE_SP, MSJ_ERROR, FECHA_ERROR)
+        VALUES (SEQ_ERROR.NEXTVAL, 'SP_buscar_proveedor', ERROR, TIEMPO);
+        COMMIT;
 END SP_buscar_proveedor;
+
+/* ELIMINAR PROVEEDORES */
+create or replace NONEDITIONABLE PROCEDURE SP_eliminar_proveedor (
+    p_id_proveedor IN VARCHAR2
+)
+IS
+    v_sql VARCHAR2(1000);
+    ERROR VARCHAR2(1000);
+    TIEMPO TIMESTAMP;
+BEGIN
+    -- Construir la sentencia SQL dinámica
+    v_sql := 'DELETE FROM TBL_PROVEEDORES WHERE ID_PROVEEDOR = :id_producto';
+ 
+    -- Ejecutar la sentencia SQL dinámica
+    EXECUTE IMMEDIATE v_sql USING p_id_proveedor;
+ 
+    -- Confirmar que el producto fue eliminado
+    DBMS_OUTPUT.PUT_LINE('Proveedor eliminado correctamente');
+EXCEPTION
+    WHEN OTHERS THEN
+        -- Manejo de errores
+        ERROR := SQLERRM;
+        TIEMPO := SYSTIMESTAMP;
+        INSERT INTO TBL_ERRORES(ID_ERROR, NOMBRE_SP, MSJ_ERROR, FECHA_ERROR)
+        VALUES (SEQ_ERROR.NEXTVAL, 'SP_eliminar_proveedor', ERROR, TIEMPO);
+        COMMIT;
+        DBMS_OUTPUT.PUT_LINE('Error al eliminar el proveedor: ' || SQLERRM);
+END SP_eliminar_proveedor;
 
 -- PAQUETES
 /* PAQUETE QUE PERMITE AGRUPAR LOS SP UTILIZADOS PARA ACTUALIZACION DE TBL PRODUCTOS Y PROVEEDORES */
@@ -1325,7 +1406,7 @@ BEGIN
             ACCION := 'UPDATE';
     END CASE;
     INSERT INTO TBL_AUDITORIA_PRODUCTOS (ID_AUD_PRODUCTO, ACCION, ID_PRODUCTO, DESCRIPCION, PRECIO, PROVEEDOR, FECHA_INGRESO, CANTIDAD)
-    VALUES (SEQ_PRODUCTOS_AUD.NEXTVAL, ACCION, :OLD.ID_PRODUCTO, :OLD.DESCRIPCION, :OLD.PRECIO, :OLD.PROOVEDOR, :OLD.FECHA_INGRESO, :OLD.CANTIDAD);
+    VALUES (SEQ_PRODUCTOS_AUD.NEXTVAL, ACCION, :OLD.ID_PRODUCTO, :OLD.DESCRIPCION, :OLD.PRECIO, :OLD.PROVEEDOR, :OLD.FECHA_INGRESO, :OLD.CANTIDAD);
 END;
 /
 
