@@ -33,7 +33,7 @@ public class RolesEmpleadoDao {
         return datos;
     }
     
-    public int Update(RolesEmpleado rolesEmpleado, String nuevoRol) {
+    public int Update(RolesEmpleado rolesEmpleado) {
         int result = 0;
         String sql = "{CALL SP_ACTUALIZAR_ROL_EMPLEADO(?, ?, ?, ?)}";
         try {
@@ -41,8 +41,8 @@ public class RolesEmpleadoDao {
             CallableStatement callstmt = con.prepareCall(sql);
 
             callstmt.setString(1, rolesEmpleado.getCedula());
-            callstmt.setString(2, rolesEmpleado.getRol()); // Aquí utilizamos el rol antiguo directamente
-            callstmt.setString(3, nuevoRol);
+            callstmt.setString(2, rolesEmpleado.getRol());
+            callstmt.setString(3, rolesEmpleado.getRol());
             callstmt.setString(4, "");
 
             result = callstmt.executeUpdate();

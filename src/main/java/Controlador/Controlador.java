@@ -212,7 +212,7 @@ public class Controlador implements ActionListener {
         }
         if (e.getSource() == vistaPantallaEmpleados.btnActualizar) {
             limpiarTabla();
-            update();
+            updateEmpleado();
             listar(vista.tblDatos);
             nuevoCliente();
         }
@@ -235,6 +235,7 @@ public class Controlador implements ActionListener {
                 String apellido2 = vistaPantallaEmpleados.tblDatos.getValueAt(fila, 5).toString();
                 String direccion = vistaPantallaEmpleados.tblDatos.getValueAt(fila, 6).toString();
                 String puesto = vistaPantallaEmpleados.tblDatos.getValueAt(fila, 7).toString();
+                String salario = vistaPantallaEmpleados.tblDatos.getValueAt(fila, 8).toString();
 
 
                 vistaPantallaEmpleados.txtCedula.setText(cedula);
@@ -326,11 +327,11 @@ public class Controlador implements ActionListener {
             if (fila == -1) {
                 JOptionPane.showMessageDialog(vistaPantallaRolesEmpleado, "Debe seleccionar una fila");
             } else {
-                String idRol = vistaPantallaRolesEmpleado.tblDatosRolEmpleado.getValueAt(fila, 0).toString();
-                String idEmpleado = vistaPantallaRolesEmpleado.tblDatosRolEmpleado.getValueAt(fila, 1).toString();
+                String nuevaCedula = vistaPantallaRolesEmpleado.tblDatosRolEmpleado.getValueAt(fila, 0).toString();
+                String nuevoRol = vistaPantallaRolesEmpleado.tblDatosRolEmpleado.getValueAt(fila, 1).toString();
 
-                vistaPantallaRolesEmpleado.txtCedula.setText(idRol);
-                vistaPantallaRolesEmpleado.txtRol.setText(idEmpleado);
+                vistaPantallaRolesEmpleado.txtCedula.setText(nuevaCedula);
+                vistaPantallaRolesEmpleado.txtRol.setText(nuevoRol);
             }
         }
     }
@@ -675,6 +676,8 @@ public class Controlador implements ActionListener {
             String apellido2 = vistaPantallaEmpleados.txtApellido2.getText();
             String direccion = vistaPantallaEmpleados.txtDirección.getText();
             String puesto = vistaPantallaEmpleados.txtPuesto.getText();
+            String salarioTexto = vistaPantallaEmpleados.txtSalario.getText();
+            double salario = Double.parseDouble(salarioTexto);
        
 
             empleados.setCedula(cedula);
@@ -685,6 +688,7 @@ public class Controlador implements ActionListener {
             empleados.setSegundoApellido(apellido2);
             empleados.setDireccion(direccion);
             empleados.setPuesto(puesto);
+            empleados.setSalario(salario);
 
             int result = empleadosDao.Update(empleados);
             if (result == 1) {
@@ -876,15 +880,15 @@ public class Controlador implements ActionListener {
         rolesEmpleado.setCedula(nuevaCedula);
         rolesEmpleado.setRol(nuevoRol);
         
-        int result = rolesEmpleadoDao.Update(rolesEmpleado, nuevoRol);
+        int result = rolesEmpleadoDao.Update(rolesEmpleado);
 
         if (result == 1) {
             JOptionPane.showMessageDialog(vistaPantallaRolesEmpleado, "Rol del Empleado Actualizado con Éxito.");
+            rolesEmpleado.setRol("nuevoRol");
         } else {
             JOptionPane.showMessageDialog(vistaPantallaRolesEmpleado, "Error al actualizar el Rol del Empleado");
         }
         limpiarTablaRolesEmpleado();
-
     }
    
     public void listarRolesEmpleado(JTable tabla) {

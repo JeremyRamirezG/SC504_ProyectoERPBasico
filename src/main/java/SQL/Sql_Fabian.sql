@@ -18,6 +18,8 @@ CREATE OR REPLACE PROCEDURE SP_AGREGAR_EMPLEADO_BASE (
         MSJ_SALIDA OUT VARCHAR2
 )
 AS
+    ERROR VARCHAR2(1000);
+    TIEMPO TIMESTAMP;
 BEGIN
     INSERT INTO TBL_EMPLEADOS
     VALUES (CEDULA, ID_EMPLEADO, PRIMER_NOMBRE, SEGUNDO_NOMBRE, PRIMER_APELLIDO, SEGUNDO_APELLIDO, DIRECCION, PUESTO, SALARIO);
@@ -27,6 +29,8 @@ BEGIN
     MSJ_SALIDA := 'Empleado agregado exitosamente.';
 EXCEPTION
     WHEN OTHERS THEN
+        ERROR := SQLERRM;
+        TIEMPO := SYSTIMESTAMP;
         MSJ_SALIDA := 'Error al agregar empleado: ' || SQLCODE || '-' || SQLERRM;
 END;
 /
@@ -46,6 +50,8 @@ CREATE OR REPLACE PROCEDURE SP_EDITAR_EMPLEADO_BASE (
         MSJ_SALIDA OUT VARCHAR2
 )
 AS
+    ERROR VARCHAR2(1000);
+    TIEMPO TIMESTAMP;
 BEGIN
     UPDATE TBL_EMPLEADOS
     SET ID_EMPLEADO = ID_EMP,
@@ -63,6 +69,8 @@ BEGIN
     MSJ_SALIDA := 'Empleado editado exitosamente.';
 EXCEPTION
     WHEN OTHERS THEN
+        ERROR := SQLERRM;
+        TIEMPO := SYSTIMESTAMP;
         MSJ_SALIDA := 'Error al editar empleado: ' || SQLCODE || '-' || SQLERRM;
 END;
 /
@@ -73,6 +81,8 @@ CREATE OR REPLACE PROCEDURE SP_BORRAR_EMPLEADO_BASE (
         MSJ_SALIDA OUT VARCHAR2
 )
 AS
+    ERROR VARCHAR2(1000);
+    TIEMPO TIMESTAMP;
 BEGIN
     DELETE FROM TBL_EMPLEADOS
     WHERE CEDULA = CEDULA;
@@ -82,6 +92,8 @@ BEGIN
     MSJ_SALIDA := 'Empleado eliminado exitosamente.';
 EXCEPTION
     WHEN OTHERS THEN
+        ERROR := SQLERRM;
+        TIEMPO := SYSTIMESTAMP;
         MSJ_SALIDA := 'Error al eliminar empleado: ' || SQLCODE || '-' || SQLERRM;
 END;
 /
@@ -100,11 +112,15 @@ CREATE OR REPLACE PROCEDURE SP_AGREGAR_ROL (
     MSJ_SALIDA OUT VARCHAR2
 )
 AS
+    ERROR VARCHAR2(1000);
+    TIEMPO TIMESTAMP;
 BEGIN
     INSERT INTO TBL_ROLES (ID_ROL, DESCRIPCION) VALUES (ID_ROL, DESCRIPCION);
     MSJ_SALIDA := 'Rol agregado exitosamente.';
 EXCEPTION
     WHEN OTHERS THEN
+        ERROR := SQLERRM;
+        TIEMPO := SYSTIMESTAMP;
         MSJ_SALIDA := 'Error al agregar rol: ' || SQLCODE || ' - ' || SQLERRM;
 END SP_AGREGAR_ROL;
 
@@ -114,6 +130,8 @@ create or replace PROCEDURE SP_BORRAR_ROL (
         MSJ_SALIDA OUT VARCHAR2
 )
 AS
+        ERROR VARCHAR2(1000);
+        TIEMPO TIMESTAMP;
 BEGIN
     -- ACTUALIZAR ROL
         DELETE FROM "TBL_ROLES"
@@ -125,6 +143,8 @@ BEGIN
         EXCEPTION
         ---mensaje de error en caso de error
         WHEN OTHERS THEN
+            ERROR := SQLERRM;
+            TIEMPO := SYSTIMESTAMP;
             MSJ_SALIDA := 'Error '|| SQLCODE || '-' || SQLERRM || '.';
 END;
 /
@@ -136,6 +156,8 @@ CREATE OR REPLACE PROCEDURE SP_EDITAR_ROL (
     MSJ_SALIDA OUT VARCHAR2
 )
 AS
+    ERROR VARCHAR2(1000);
+    TIEMPO TIMESTAMP;
 BEGIN
     -- Actualiza la descripci�n del rol
     UPDATE TBL_ROLES
@@ -147,6 +169,8 @@ BEGIN
     MSJ_SALIDA := 'Editado Exitosamente';
     EXCEPTION
     WHEN OTHERS THEN
+        ERROR := SQLERRM;
+        TIEMPO := SYSTIMESTAMP;
         MSJ_SALIDA := 'Error al intentar actualizar el rol: ' || SQLCODE || '-' || SQLERRM;
 END;
 /
@@ -166,6 +190,8 @@ CREATE OR REPLACE PROCEDURE SP_AGREGAR_ROL_EMPLEADO (
 )
 AS
     VSQL VARCHAR2(500);
+    ERROR VARCHAR2(1000);
+    TIEMPO TIMESTAMP;
     --
 BEGIN
 	-- INSERTAR ROL
@@ -176,8 +202,9 @@ BEGIN
 	-- MENSAJE SALIDA
 	MSJ_SALIDA := 'Rol agregado exitosamente.';
 EXCEPTION
-    -- Capturar cualquier excepción y enviar mensaje de error
 	WHEN OTHERS THEN
+        ERROR := SQLERRM;
+        TIEMPO := SYSTIMESTAMP;
 		MSJ_SALIDA := 'Rol no agregado debido a la falla: ' || SQLCODE || '-' || SQLERRM || '.';
 END;
 /
@@ -190,6 +217,8 @@ CREATE OR REPLACE PROCEDURE SP_BORRAR_ROL_EMPLEADO (
 )
 AS
     VSQL VARCHAR2(500);
+    ERROR VARCHAR2(1000);
+    TIEMPO TIMESTAMP;
     --
 BEGIN
 	-- BORRAR ROL
@@ -202,6 +231,8 @@ BEGIN
 EXCEPTION
     -- Capturar cualquier excepción y enviar mensaje de error
 	WHEN OTHERS THEN
+        ERROR := SQLERRM;
+        TIEMPO := SYSTIMESTAMP;
 		MSJ_SALIDA := 'Rol no borrado debido a la falla: ' || SQLCODE || '-' || SQLERRM || '.';
 END;
 /
@@ -215,6 +246,8 @@ CREATE OR REPLACE PROCEDURE SP_ACTUALIZAR_ROL_EMPLEADO (
 )
 AS
     VSQL VARCHAR2(500);
+    ERROR VARCHAR2(1000);
+    TIEMPO TIMESTAMP;
     --
 BEGIN
 	-- ACTUALIZAR ROL
@@ -228,6 +261,8 @@ BEGIN
 EXCEPTION
     -- Capturar cualquier excepción y enviar mensaje de error
 	WHEN OTHERS THEN
+        ERROR := SQLERRM;
+        TIEMPO := SYSTIMESTAMP;
 		MSJ_SALIDA := 'Rol no actualizado debido a la falla: ' || SQLCODE || '-' || SQLERRM || '.';
 END;
 /
