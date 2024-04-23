@@ -31,9 +31,9 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="lblIdEmpleado" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="lblIdFactura" alignment="1" min="-2" max="-2" attributes="0"/>
                                   <Component id="lblIdCliente" alignment="1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblIdEmpleado" alignment="1" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="1" max="-2" attributes="0">
@@ -163,20 +163,13 @@
                                   </Group>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="lblIdEmpleado" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="1" attributes="0">
-                                      <Group type="103" groupAlignment="3" attributes="0">
-                                          <Component id="txtIdEmpleado" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="lblFechaFactura" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="btnEditarFactura" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  </Group>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="txtIdEmpleado" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblFechaFactura" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="btnEditarFactura" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblIdEmpleado" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
@@ -296,7 +289,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="lblIdEmpleado">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Cedula Empleado"/>
+        <Property name="text" type="java.lang.String" value="Cedula Cliente"/>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
@@ -304,7 +297,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="lblIdCliente">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Cedula Cliente"/>
+        <Property name="text" type="java.lang.String" value="Cedula Empleado"/>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
