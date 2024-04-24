@@ -31,6 +31,9 @@ EXCEPTION
     WHEN OTHERS THEN
         ERROR := SQLERRM;
         TIEMPO := SYSTIMESTAMP;
+        INSERT INTO TBL_ERRORES(ID_ERROR, NOMBRE_SP, MSJ_ERROR, FECHA_ERROR)
+        VALUES (SEQ_ERROR.NEXTVAL, 'SP_AGREGAR_EMPLEADO_BASE', ERROR, TIEMPO);
+        COMMIT;
         MSJ_SALIDA := 'Error al agregar empleado: ' || SQLCODE || '-' || SQLERRM;
 END;
 /
@@ -71,6 +74,9 @@ EXCEPTION
     WHEN OTHERS THEN
         ERROR := SQLERRM;
         TIEMPO := SYSTIMESTAMP;
+        INSERT INTO TBL_ERRORES(ID_ERROR, NOMBRE_SP, MSJ_ERROR, FECHA_ERROR)
+        VALUES (SEQ_ERROR.NEXTVAL, 'SP_EDITAR_EMPLEADO_BASE', ERROR, TIEMPO);
+        COMMIT;
         MSJ_SALIDA := 'Error al editar empleado: ' || SQLCODE || '-' || SQLERRM;
 END;
 /
@@ -94,6 +100,9 @@ EXCEPTION
     WHEN OTHERS THEN
         ERROR := SQLERRM;
         TIEMPO := SYSTIMESTAMP;
+        INSERT INTO TBL_ERRORES(ID_ERROR, NOMBRE_SP, MSJ_ERROR, FECHA_ERROR)
+        VALUES (SEQ_ERROR.NEXTVAL, 'SP_BORRAR_EMPLEADO_BASE', ERROR, TIEMPO);
+        COMMIT;
         MSJ_SALIDA := 'Error al eliminar empleado: ' || SQLCODE || '-' || SQLERRM;
 END;
 /
@@ -121,8 +130,12 @@ EXCEPTION
     WHEN OTHERS THEN
         ERROR := SQLERRM;
         TIEMPO := SYSTIMESTAMP;
+        INSERT INTO TBL_ERRORES(ID_ERROR, NOMBRE_SP, MSJ_ERROR, FECHA_ERROR)
+        VALUES (SEQ_ERROR.NEXTVAL, 'SP_AGREGAR_ROL', ERROR, TIEMPO);
+        COMMIT;
         MSJ_SALIDA := 'Error al agregar rol: ' || SQLCODE || ' - ' || SQLERRM;
 END SP_AGREGAR_ROL;
+/
 
 /* ELIMINAR ROL BASE */
 create or replace PROCEDURE SP_BORRAR_ROL (
@@ -145,6 +158,9 @@ BEGIN
         WHEN OTHERS THEN
             ERROR := SQLERRM;
             TIEMPO := SYSTIMESTAMP;
+            INSERT INTO TBL_ERRORES(ID_ERROR, NOMBRE_SP, MSJ_ERROR, FECHA_ERROR)
+            VALUES (SEQ_ERROR.NEXTVAL, 'SP_BORRAR_ROL', ERROR, TIEMPO);
+            COMMIT;
             MSJ_SALIDA := 'Error '|| SQLCODE || '-' || SQLERRM || '.';
 END;
 /
@@ -171,6 +187,9 @@ BEGIN
     WHEN OTHERS THEN
         ERROR := SQLERRM;
         TIEMPO := SYSTIMESTAMP;
+        INSERT INTO TBL_ERRORES(ID_ERROR, NOMBRE_SP, MSJ_ERROR, FECHA_ERROR)
+        VALUES (SEQ_ERROR.NEXTVAL, 'SP_EDITAR_ROL', ERROR, TIEMPO);
+        COMMIT;
         MSJ_SALIDA := 'Error al intentar actualizar el rol: ' || SQLCODE || '-' || SQLERRM;
 END;
 /
@@ -205,7 +224,10 @@ EXCEPTION
 	WHEN OTHERS THEN
         ERROR := SQLERRM;
         TIEMPO := SYSTIMESTAMP;
-		MSJ_SALIDA := 'Rol no agregado debido a la falla: ' || SQLCODE || '-' || SQLERRM || '.';
+        INSERT INTO TBL_ERRORES(ID_ERROR, NOMBRE_SP, MSJ_ERROR, FECHA_ERROR)
+        VALUES (SEQ_ERROR.NEXTVAL, 'VST_ROLES_EMPLEADO', ERROR, TIEMPO);
+        COMMIT;
+        MSJ_SALIDA := 'Rol no agregado debido a la falla: ' || SQLCODE || '-' || SQLERRM || '.';
 END;
 /
 
@@ -233,7 +255,10 @@ EXCEPTION
 	WHEN OTHERS THEN
         ERROR := SQLERRM;
         TIEMPO := SYSTIMESTAMP;
-		MSJ_SALIDA := 'Rol no borrado debido a la falla: ' || SQLCODE || '-' || SQLERRM || '.';
+        INSERT INTO TBL_ERRORES(ID_ERROR, NOMBRE_SP, MSJ_ERROR, FECHA_ERROR)
+        VALUES (SEQ_ERROR.NEXTVAL, 'SP_BORRAR_ROL_EMPLEADO', ERROR, TIEMPO);
+        COMMIT;
+        MSJ_SALIDA := 'Rol no borrado debido a la falla: ' || SQLCODE || '-' || SQLERRM || '.';
 END;
 /
 
@@ -263,6 +288,9 @@ EXCEPTION
 	WHEN OTHERS THEN
         ERROR := SQLERRM;
         TIEMPO := SYSTIMESTAMP;
-		MSJ_SALIDA := 'Rol no actualizado debido a la falla: ' || SQLCODE || '-' || SQLERRM || '.';
+        INSERT INTO TBL_ERRORES(ID_ERROR, NOMBRE_SP, MSJ_ERROR, FECHA_ERROR)
+        VALUES (SEQ_ERROR.NEXTVAL, 'SP_ACTUALIZAR_ROL_EMPLEADO', ERROR, TIEMPO);
+        COMMIT;
+        MSJ_SALIDA := 'Rol no actualizado debido a la falla: ' || SQLCODE || '-' || SQLERRM || '.';
 END;
 /
